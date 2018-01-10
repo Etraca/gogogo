@@ -1,7 +1,1 @@
-http web mvc beego
-db 原生 xorm
-remote http
-Test
-#IO
-logger
-config
+该项目仅供学习使用
