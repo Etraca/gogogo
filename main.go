@@ -15,7 +15,7 @@ import (
 )
 
 func init() {
-	log.Println(os.Args[1])
+	log.Println(os.Args[0])
 	common.SetConfig()
 	model.SetEngine()
 }
@@ -36,7 +36,7 @@ func main() {
 	providerServeMux.HandleFunc(prefix+"/getRemoteUser", safeHandler(callback.GetRemoteUser))
 	providerServeMux.HandleFunc(prefix+"/postRemoteUser", safeHandler(callback.PostRemoteUser))
 	srv := &http.Server{
-		Addr:         "localhost:9090",
+		Addr:         common.Cfg.MustValue("server", "port", ":9090"),
 		Handler:      providerServeMux,
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
@@ -192,7 +192,6 @@ func accessLog(r *http.Request, input, output string, httpStatus int, start time
 	log.Println("_com_request_out", "method", r.Method, "url", r.URL.Path, "httpCode", httpStatus, "input", input, "output", string(output),
 		"spent(us)", int64(time.Since(start)/time.Microsecond), "code", code)
 }
-
 
 func test(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("hello world"))
